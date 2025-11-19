@@ -1,65 +1,174 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScssCard, ScssBadge } from "@/components/ScssCard";
+import { TailwindCard, TailwindBadge } from "@/components/TailwindCard";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <header className="mb-12 text-center">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
+            Next.js + TypeScript + Tailwind + SCSS + shadcn/ui
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            A complete setup demonstrating CSS variables shared between Tailwind CSS and SCSS modules,
+            all powered by a centralized globals.css configuration.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        </header>
+
+        {/* Demo Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          
+          {/* SCSS Module Card */}
+          <ScssCard 
+            title="SCSS Module Component"
+            description="Using CSS variables in module-scoped SCSS"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <p>This card is styled using <strong>SCSS modules</strong> with CSS variables from globals.css:</p>
+            <ul>
+              <li>var(--card) for background</li>
+              <li>var(--border) for borders</li>
+              <li>var(--spacing-*) for spacing</li>
+              <li>var(--radius-*) for border radius</li>
+            </ul>
+            <div className="mt-4">
+              <ScssBadge variant="default">SCSS</ScssBadge>
+              <ScssBadge variant="secondary">Variables</ScssBadge>
+            </div>
+          </ScssCard>
+
+          {/* Tailwind Card */}
+          <TailwindCard 
+            title="Tailwind CSS Component"
+            description="Using Tailwind classes with CSS variables"
           >
-            Documentation
-          </a>
+            <p className="mb-2">This card uses <strong>Tailwind CSS classes</strong> that reference the same CSS variables:</p>
+            <ul className="list-none p-0 my-4 space-y-1">
+              <li className="text-muted-foreground">
+                <span className="text-primary font-bold mr-2">✓</span>
+                bg-card maps to var(--card)
+              </li>
+              <li className="text-muted-foreground">
+                <span className="text-primary font-bold mr-2">✓</span>
+                border-border maps to var(--border)
+              </li>
+              <li className="text-muted-foreground">
+                <span className="text-primary font-bold mr-2">✓</span>
+                rounded-lg uses border-radius
+              </li>
+            </ul>
+            <div className="mt-4">
+              <TailwindBadge variant="default">Tailwind</TailwindBadge>
+              <TailwindBadge variant="secondary">CSS Vars</TailwindBadge>
+            </div>
+          </TailwindCard>
+
+          {/* shadcn/ui Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>shadcn/ui Component</CardTitle>
+              <CardDescription>
+                Pre-built accessible components
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm mb-4">
+                This card uses <strong>shadcn/ui</strong> components which are built on top of Tailwind CSS and use the same CSS variables.
+              </p>
+              <ul className="list-none p-0 space-y-2 mb-4 text-sm">
+                <li className="text-muted-foreground">
+                  <span className="text-primary font-bold mr-2">✓</span>
+                  Accessible by default
+                </li>
+                <li className="text-muted-foreground">
+                  <span className="text-primary font-bold mr-2">✓</span>
+                  Customizable with CSS vars
+                </li>
+                <li className="text-muted-foreground">
+                  <span className="text-primary font-bold mr-2">✓</span>
+                  TypeScript support
+                </li>
+              </ul>
+              <Button className="w-full">Click Me</Button>
+            </CardContent>
+          </Card>
         </div>
-      </main>
+
+        {/* Feature Highlights */}
+        <div className="bg-muted rounded-xl p-8 mb-12">
+          <h2 className="text-2xl font-bold text-foreground mb-6">✨ Project Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-3">🎨 Unified Design System</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• All CSS variables defined in <code className="bg-background px-2 py-1 rounded">globals.css</code></li>
+                <li>• Accessible in both Tailwind and SCSS</li>
+                <li>• Dark mode support included</li>
+                <li>• Consistent spacing, colors, and typography</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-3">🛠️ Technology Stack</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• Next.js 16 with App Router</li>
+                <li>• TypeScript for type safety</li>
+                <li>• Tailwind CSS v4 with CSS variables</li>
+                <li>• SCSS modules for complex styling</li>
+                <li>• shadcn/ui for accessible components</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Code Examples */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>SCSS Usage</CardTitle>
+              <CardDescription>How to use CSS variables in SCSS modules</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs">
+{`.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}`}
+              </pre>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Tailwind Usage</CardTitle>
+              <CardDescription>How to use CSS variables with Tailwind</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs">
+{`<div className="
+  bg-card 
+  text-card-foreground 
+  border-border 
+  rounded-lg 
+  p-6
+">
+  Content here
+</div>`}
+              </pre>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-12 text-center text-sm text-muted-foreground">
+          <p>Built with ❤️ using Next.js, TypeScript, Tailwind CSS, SCSS, and shadcn/ui</p>
+        </footer>
+      </div>
     </div>
   );
 }

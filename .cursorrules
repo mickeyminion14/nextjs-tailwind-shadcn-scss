@@ -1,0 +1,97 @@
+# Project Rules for Insurance App
+
+## Tech Stack
+- Next.js 16 with App Router
+- TypeScript
+- Tailwind CSS v4 (with CSS variables)
+- SCSS with CSS Modules
+- shadcn/ui for components
+
+## CSS Architecture
+
+### CSS Variables (Single Source of Truth)
+- All design tokens are defined in `app/globals.css`
+- CSS variables are used by both Tailwind and SCSS
+- Never hardcode colors, spacing, or other design values
+
+### Styling Approaches
+
+1. **SCSS Modules** (for complex components with nested styles)
+   - Use `.module.scss` extension
+   - Access CSS variables with `var(--variable-name)`
+   - Keep styles scoped to the component
+
+2. **Tailwind CSS** (for utility-first rapid development)
+   - Use Tailwind classes that map to CSS variables
+   - Example: `bg-card`, `text-foreground`, `border-border`
+
+3. **shadcn/ui** (for accessible pre-built components)
+   - Install via `npx shadcn@latest add [component]`
+   - Components automatically use CSS variables
+   - Customize via `globals.css`
+
+### CSS Variables Usage
+
+**In SCSS:**
+```scss
+.element {
+  background: var(--card);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+```
+
+**In Tailwind:**
+```tsx
+<div className="bg-card p-6 rounded-md">
+```
+
+**In TypeScript (programmatic):**
+```ts
+import { colors, spacing } from '@/lib/design-tokens';
+const style = { 
+  backgroundColor: colors.card,
+  padding: spacing.lg 
+};
+```
+
+## File Organization
+
+```
+app/
+  globals.css         # CSS variables & Tailwind config
+  layout.tsx          # Root layout
+  page.tsx           # Page components
+
+components/
+  ui/                # shadcn/ui components
+  *.tsx              # Custom components
+  *.module.scss      # SCSS modules
+
+lib/
+  utils.ts           # Utility functions
+  design-tokens.ts   # CSS variables as TypeScript
+```
+
+## Development Guidelines
+
+1. **Always use CSS variables** from `globals.css`
+2. **Choose the right styling approach** based on complexity
+3. **Keep components modular** and reusable
+4. **Use TypeScript types** for props and state
+5. **Follow accessibility best practices** (use shadcn/ui when possible)
+6. **Test dark mode** when adding new styles
+
+## Adding New Design Tokens
+
+1. Add to `:root` in `globals.css`
+2. Add to `.dark` for dark mode support
+3. Map to Tailwind in `@theme inline` directive
+4. Export from `lib/design-tokens.ts` if needed
+
+## Component Naming
+
+- PascalCase for component files: `MyComponent.tsx`
+- camelCase for SCSS modules: `MyComponent.module.scss`
+- kebab-case for utility files: `design-tokens.ts`
+

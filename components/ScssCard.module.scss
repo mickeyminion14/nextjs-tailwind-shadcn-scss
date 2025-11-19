@@ -1,0 +1,83 @@
+// This SCSS module demonstrates using CSS variables from globals.css
+.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  
+  &:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+.cardHeader {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.cardTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: var(--font-size-sm);
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-xs);
+}
+
+.cardContent {
+  color: var(--card-foreground);
+  
+  p {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+    
+    li {
+      padding: var(--spacing-xs) 0;
+      color: var(--muted-foreground);
+      
+      &::before {
+        content: "✓ ";
+        color: var(--primary);
+        font-weight: bold;
+        margin-right: var(--spacing-xs);
+      }
+    }
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  margin-right: var(--spacing-xs);
+}
+
+.badgeSecondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.badgeDestructive {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
