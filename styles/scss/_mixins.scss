@@ -1,0 +1,257 @@
+// ============================================================================
+// Common Mixins
+// ============================================================================
+
+/// Flexbox container with common configurations
+/// @param {String} $direction [row] - flex-direction
+/// @param {String} $justify [flex-start] - justify-content
+/// @param {String} $align [stretch] - align-items
+/// @param {String} $wrap [nowrap] - flex-wrap
+/// @example scss
+///   @include flex(row, center, center);
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+/// Center element with flexbox
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/// Grid container with common configurations
+/// @param {Number} $columns - Number of columns or grid-template-columns value
+/// @param {Number} $gap [1rem] - Gap between grid items
+/// @example scss
+///   @include grid(3, 2rem);
+///   @include grid(repeat(auto-fit, minmax(250px, 1fr)));
+@mixin grid($columns, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+}
+
+/// Absolute positioning shorthand
+/// @param {Number} $top [null] - top position
+/// @param {Number} $right [null] - right position
+/// @param {Number} $bottom [null] - bottom position
+/// @param {Number} $left [null] - left position
+/// @example scss
+///   @include absolute(0, 0, null, null);
+@mixin absolute($top: null, $right: null, $bottom: null, $left: null) {
+  position: absolute;
+  @if $top { top: $top; }
+  @if $right { right: $right; }
+  @if $bottom { bottom: $bottom; }
+  @if $left { left: $left; }
+}
+
+/// Fixed positioning shorthand
+@mixin fixed($top: null, $right: null, $bottom: null, $left: null) {
+  position: fixed;
+  @if $top { top: $top; }
+  @if $right { right: $right; }
+  @if $bottom { bottom: $bottom; }
+  @if $left { left: $left; }
+}
+
+/// Cover entire parent element
+@mixin cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/// Size shorthand
+/// @param {Number} $width - Width value
+/// @param {Number} $height [$width] - Height value (defaults to width for square)
+/// @example scss
+///   @include size(50px); // 50px square
+///   @include size(100px, 50px); // 100px wide, 50px tall
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+/// Square shorthand
+/// @param {Number} $size - Size for both width and height
+@mixin square($size) {
+  @include size($size);
+}
+
+/// Circle
+/// @param {Number} $size - Diameter of the circle
+@mixin circle($size) {
+  @include size($size);
+  border-radius: 50%;
+}
+
+/// Transition shorthand
+/// @param {String} $properties [all] - Properties to transition
+/// @param {Number} $duration [0.3s] - Duration of transition
+/// @param {String} $timing [ease] - Timing function
+/// @example scss
+///   @include transition(opacity, 0.2s, ease-in-out);
+///   @include transition((opacity, transform), 0.3s);
+@mixin transition($properties: all, $duration: 0.3s, $timing: ease) {
+  @if type-of($properties) == 'list' {
+    $transitions: ();
+    @each $property in $properties {
+      $transitions: append($transitions, $property $duration $timing, comma);
+    }
+    transition: $transitions;
+  } @else {
+    transition: $properties $duration $timing;
+  }
+}
+
+/// Smooth transition using CSS variables
+@mixin smooth-transition {
+  transition: all var(--transition-base);
+}
+
+/// Hover effect template
+/// @param {Number} $scale [1.05] - Scale on hover
+/// @example scss
+///   @include hover-lift;
+@mixin hover-lift($scale: 1.05) {
+  @include transition((transform, box-shadow));
+  
+  &:hover {
+    transform: translateY(-2px) scale($scale);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  &:active {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/// Text truncation (ellipsis)
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/// Multi-line text truncation
+/// @param {Number} $lines [2] - Number of lines to show
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/// Hide visually but keep accessible for screen readers
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/// Reset list styles
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/// Reset button styles
+@mixin reset-button {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  
+  &:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/// Aspect ratio box
+/// @param {Number} $width [16] - Width ratio
+/// @param {Number} $height [9] - Height ratio
+/// @example scss
+///   @include aspect-ratio(16, 9);
+@mixin aspect-ratio($width: 16, $height: 9) {
+  aspect-ratio: $width / $height;
+}
+
+/// Gradient text
+/// @param {Gradient} $gradient - CSS gradient
+/// @example scss
+///   @include gradient-text(linear-gradient(45deg, red, blue));
+@mixin gradient-text($gradient) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/// Glassmorphism effect
+/// @param {Color} $bg [rgba(255, 255, 255, 0.1)] - Background color
+/// @param {Number} $blur [10px] - Backdrop blur amount
+@mixin glass($bg: rgba(255, 255, 255, 0.1), $blur: 10px) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+/// Scrollbar styling
+/// @param {Number} $width [8px] - Scrollbar width
+/// @param {Color} $track-color [transparent] - Track color
+/// @param {Color} $thumb-color [var(--muted)] - Thumb color
+@mixin scrollbar($width: 8px, $track-color: transparent, $thumb-color: var(--muted)) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $width;
+    
+    &:hover {
+      background: var(--muted-foreground);
+    }
+  }
+}
+
+/// Focus ring using CSS variables
+@mixin focus-ring {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/// Animation shorthand
+/// @param {String} $name - Animation name
+/// @param {Number} $duration [1s] - Animation duration
+/// @param {String} $timing [ease] - Timing function
+/// @param {Number} $delay [0s] - Animation delay
+/// @param {Number|String} $iteration [1] - Iteration count
+/// @param {String} $direction [normal] - Animation direction
+@mixin animation($name, $duration: 1s, $timing: ease, $delay: 0s, $iteration: 1, $direction: normal) {
+  animation: $name $duration $timing $delay $iteration $direction;
+}
+

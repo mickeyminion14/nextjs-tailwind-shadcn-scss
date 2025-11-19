@@ -1,0 +1,113 @@
+// ============================================================================
+// Responsive Breakpoints
+// ============================================================================
+
+// Breakpoint values
+$breakpoints: (
+  xs: 320px,
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+) !default;
+
+/// Responsive breakpoint mixin - min-width (mobile-first)
+/// @param {String} $breakpoint - The breakpoint name
+/// @example scss
+///   @include breakpoint(md) {
+///     font-size: 1.5rem;
+///   }
+@mixin breakpoint($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint '#{$breakpoint}' not found. Available breakpoints: #{map-keys($breakpoints)}";
+  }
+}
+
+/// Responsive breakpoint mixin - max-width (desktop-first)
+/// @param {String} $breakpoint - The breakpoint name
+/// @example scss
+///   @include breakpoint-down(lg) {
+///     display: none;
+///   }
+@mixin breakpoint-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $value: map-get($breakpoints, $breakpoint);
+    @media (max-width: $value - 1px) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint '#{$breakpoint}' not found. Available breakpoints: #{map-keys($breakpoints)}";
+  }
+}
+
+/// Responsive breakpoint mixin - between two breakpoints
+/// @param {String} $min - The minimum breakpoint
+/// @param {String} $max - The maximum breakpoint
+/// @example scss
+///   @include breakpoint-between(sm, lg) {
+///     padding: 2rem;
+///   }
+@mixin breakpoint-between($min, $max) {
+  @if map-has-key($breakpoints, $min) and map-has-key($breakpoints, $max) {
+    $min-value: map-get($breakpoints, $min);
+    $max-value: map-get($breakpoints, $max);
+    @media (min-width: $min-value) and (max-width: $max-value - 1px) {
+      @content;
+    }
+  } @else {
+    @warn "One or both breakpoints not found. Available breakpoints: #{map-keys($breakpoints)}";
+  }
+}
+
+/// Responsive breakpoint mixin - only at specific breakpoint
+/// @param {String} $breakpoint - The breakpoint name
+/// @example scss
+///   @include breakpoint-only(md) {
+///     display: block;
+///   }
+@mixin breakpoint-only($breakpoint) {
+  $breakpoint-list: map-keys($breakpoints);
+  $index: index($breakpoint-list, $breakpoint);
+  
+  @if $index {
+    $min: map-get($breakpoints, $breakpoint);
+    @if $index < length($breakpoint-list) {
+      $next-breakpoint: nth($breakpoint-list, $index + 1);
+      $max: map-get($breakpoints, $next-breakpoint);
+      @media (min-width: $min) and (max-width: $max - 1px) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $min) {
+        @content;
+      }
+    }
+  }
+}
+
+/// Mobile-only styles (below tablet)
+@mixin mobile-only {
+  @include breakpoint-down(md) {
+    @content;
+  }
+}
+
+/// Tablet and up
+@mixin tablet-up {
+  @include breakpoint(md) {
+    @content;
+  }
+}
+
+/// Desktop and up
+@mixin desktop-up {
+  @include breakpoint(lg) {
+    @content;
+  }
+}
+

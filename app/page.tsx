@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScssCard, ScssBadge } from "@/components/ScssCard";
 import { TailwindCard, TailwindBadge } from "@/components/TailwindCard";
+import { ScssExample } from "@/components/ScssExample";
 
 export default function Home() {
   return (
@@ -120,6 +121,15 @@ export default function Home() {
               </ul>
             </div>
           </div>
+        </div>
+
+        {/* SCSS Utils Demo */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-foreground mb-4">🎨 SCSS Utilities Demo</h2>
+          <p className="text-muted-foreground mb-6">
+            Comprehensive example showcasing all available SCSS mixins and functions
+          </p>
+          <ScssExample />
         </div>
 
         {/* Code Examples */}

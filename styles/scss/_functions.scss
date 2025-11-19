@@ -1,0 +1,65 @@
+// ============================================================================
+// SCSS Functions
+// ============================================================================
+
+/// Convert pixels to rem units
+/// @param {Number} $pixels - The pixel value to convert
+/// @param {Number} $base [16] - The base font size in pixels
+/// @return {Number} - The converted rem value
+/// @example scss
+///   font-size: pxToRem(24); // 1.5rem
+///   padding: pxToRem(16) pxToRem(32); // 1rem 2rem
+@function pxToRem($pixels, $base: 16) {
+  @if unitless($pixels) {
+    @return ($pixels / $base) * 1rem;
+  } @else {
+    @return ($pixels / $base) * 1rem;
+  }
+}
+
+/// Convert pixels to em units
+/// @param {Number} $pixels - The pixel value to convert
+/// @param {Number} $base [16] - The base font size in pixels
+/// @return {Number} - The converted em value
+@function pxToEm($pixels, $base: 16) {
+  @if unitless($pixels) {
+    @return ($pixels / $base) * 1em;
+  } @else {
+    @return ($pixels / $base) * 1em;
+  }
+}
+
+/// Strip unit from a number
+/// @param {Number} $number - Number to remove unit from
+/// @return {Number} - Unitless number
+@function stripUnit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+/// Clamp a value between a minimum and maximum
+/// @param {Number} $min - Minimum value
+/// @param {Number} $val - Preferred value
+/// @param {Number} $max - Maximum value
+/// @return {String} - CSS clamp() function
+@function clampValue($min, $val, $max) {
+  @return clamp(#{$min}, #{$val}, #{$max});
+}
+
+/// Calculate fluid typography size
+/// @param {Number} $min-size - Minimum font size
+/// @param {Number} $max-size - Maximum font size
+/// @param {Number} $min-width [320] - Minimum viewport width
+/// @param {Number} $max-width [1200] - Maximum viewport width
+/// @return {String} - CSS clamp() with fluid calculation
+@function fluidSize($min-size, $max-size, $min-width: 320, $max-width: 1200) {
+  $min: pxToRem($min-size);
+  $max: pxToRem($max-size);
+  $slope: ($max-size - $min-size) / ($max-width - $min-width);
+  $y-intersection: ($min-size - $slope * $min-width) / 16;
+  
+  @return clamp(#{$min}, #{$y-intersection}rem + #{$slope * 100}vw, #{$max});
+}
+

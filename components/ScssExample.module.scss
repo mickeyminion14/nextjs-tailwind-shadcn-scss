@@ -1,0 +1,202 @@
+// Import all SCSS utilities
+@import '@/styles/scss';
+
+// Example component demonstrating all the SCSS utilities
+.container {
+  // Using CSS variables from globals.css
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--card-foreground);
+  
+  // Using pxToRem function
+  padding: pxToRem(24);
+  margin-bottom: pxToRem(32);
+  border-radius: pxToRem(12);
+  
+  // Using transition mixin
+  @include transition((transform, box-shadow), 0.3s, ease-in-out);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  // Responsive breakpoint
+  @include breakpoint(md) {
+    padding: pxToRem(32);
+    margin-bottom: pxToRem(48);
+  }
+  
+  @include breakpoint(lg) {
+    padding: pxToRem(48);
+  }
+}
+
+.header {
+  // Using flex mixin
+  @include flex(row, space-between, center);
+  margin-bottom: pxToRem(16);
+  padding-bottom: pxToRem(16);
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  // Using fluid typography
+  font-size: fluidSize(20, 32);
+  font-weight: $font-weight-bold;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.badge {
+  // Using size mixin and CSS variables
+  @include flex(row, center, center);
+  padding: pxToRem(4) pxToRem(12);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: $radius-full;
+  font-size: pxToRem(12);
+  font-weight: $font-weight-semibold;
+  
+  // Mobile-only styles
+  @include mobile-only {
+    font-size: pxToRem(10);
+    padding: pxToRem(2) pxToRem(8);
+  }
+}
+
+.content {
+  // Using SCSS variables
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  
+  p {
+    margin-bottom: pxToRem(12);
+  }
+}
+
+.grid {
+  // Using grid mixin
+  @include grid(repeat(auto-fit, minmax(250px, 1fr)), pxToRem(24));
+  margin-top: pxToRem(24);
+  
+  @include mobile-only {
+    @include grid(1, pxToRem(16));
+  }
+}
+
+.card {
+  background: var(--muted);
+  padding: pxToRem(20);
+  border-radius: $radius-lg;
+  
+  // Using hover-lift mixin
+  @include hover-lift(1.02);
+}
+
+.imageWrapper {
+  // Using aspect ratio mixin
+  @include aspect-ratio(16, 9);
+  background: var(--muted);
+  border-radius: $radius-md;
+  overflow: hidden;
+  margin-bottom: pxToRem(16);
+}
+
+.button {
+  // Using reset button and smooth transition
+  @include reset-button;
+  @include smooth-transition;
+  
+  padding: pxToRem(12) pxToRem(24);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: $radius-md;
+  font-weight: $font-weight-medium;
+  font-size: pxToRem(14);
+  
+  &:hover {
+    background: var(--primary);
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:focus {
+    @include focus-ring;
+  }
+}
+
+.truncated {
+  // Using truncate mixin
+  @include truncate;
+  max-width: pxToRem(300);
+}
+
+.clamped {
+  // Using line-clamp mixin
+  @include line-clamp(3);
+}
+
+.absoluteElement {
+  // Using absolute positioning mixin
+  @include absolute(pxToRem(10), pxToRem(10), null, null);
+  @include size(pxToRem(40));
+}
+
+.circle {
+  // Using circle mixin
+  @include circle(pxToRem(50));
+  background: var(--primary);
+  @include flex-center;
+  color: var(--primary-foreground);
+  font-weight: $font-weight-bold;
+}
+
+.glassCard {
+  // Using glassmorphism mixin
+  @include glass(rgba(255, 255, 255, 0.1), 10px);
+  padding: pxToRem(24);
+  border-radius: $radius-lg;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.customScrollbar {
+  height: pxToRem(200);
+  overflow-y: auto;
+  
+  // Using scrollbar mixin
+  @include scrollbar(8px, var(--muted), var(--primary));
+}
+
+.responsiveText {
+  // Shows different content at different breakpoints
+  @include breakpoint-only(sm) {
+    &::after {
+      content: " (Small screen)";
+      color: var(--muted-foreground);
+    }
+  }
+  
+  @include breakpoint-only(md) {
+    &::after {
+      content: " (Medium screen)";
+      color: var(--muted-foreground);
+    }
+  }
+  
+  @include desktop-up {
+    &::after {
+      content: " (Desktop)";
+      color: var(--muted-foreground);
+    }
+  }
+}
+
+.hiddenForScreenReaders {
+  @include visually-hidden;
+}
+
